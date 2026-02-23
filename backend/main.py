@@ -186,8 +186,12 @@ async def health_check_v1():
 
 # ==================== API Routes ====================
 
-# Import route modules (to be created next)
-# from routers import threats, reports, events, statistics
+# Import and register route modules
+from routers import threats_router, events_router, statistics_router
+
+app.include_router(threats_router)
+app.include_router(events_router)
+app.include_router(statistics_router)
 
 
 if __name__ == "__main__":
