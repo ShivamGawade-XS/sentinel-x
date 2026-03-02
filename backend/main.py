@@ -10,10 +10,10 @@ from datetime import datetime
 
 from fastapi import FastAPI, Request, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.gzip import GZIPMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.gzip import GZipMiddleware
 
 from config import Config
 from database import init_db, get_db, health_check
@@ -96,7 +96,7 @@ app = FastAPI(
 
 # Add middleware
 app.add_middleware(LoggingMiddleware)
-app.add_middleware(GZIPMiddleware, minimum_size=1000)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=Config.CORS_ORIGINS,

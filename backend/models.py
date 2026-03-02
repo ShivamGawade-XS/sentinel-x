@@ -187,7 +187,7 @@ class ThreatReport(Base):
     low_count = Column(Integer, default=0)
     summary = Column(Text)
     recommendations = Column(JSON, default=[])
-    metadata = Column(JSON, default={})
+    extra_metadata = Column(JSON, default={})
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
     
     def __repr__(self):
@@ -209,7 +209,7 @@ class SecurityEvent(Base):
     severity = Column(SQLEnum(ThreatLevelEnum), nullable=False, index=True)
     source = Column(String(256), nullable=False, index=True)
     description = Column(Text, nullable=False)
-    metadata = Column(JSON, default={})
+    event_metadata = Column(JSON, default={})
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False, index=True)
     
     def __repr__(self):

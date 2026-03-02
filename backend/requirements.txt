@@ -11,10 +11,10 @@ alembic==1.13.0
 psycopg2-binary==2.9.9
 
 # Security & Authentication
-PyJWT==2.8.1
-bcrypt==4.0.1
-cryptography==41.0.5
-python-jose[cryptography]==3.3.0
+PyJWT>=2.8.0
+bcrypt>=4.0.1
+cryptography>=41.0.0
+python-jose[cryptography]>=3.3.0
 
 # Utilities
 python-dotenv==1.0.0
