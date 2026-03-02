@@ -329,7 +329,7 @@ async def get_threats(
     summary="Get threat details by ID"
 )
 async def get_threat_details(
-    threat_id: str = Query(..., min_length=1, description="Threat ID"),
+    threat_id: str,
     db: Session = Depends(get_db)
 ) -> ThreatDetectionResponse:
     """

@@ -166,7 +166,7 @@ async def get_security_events(
     summary="Get event details by ID"
 )
 async def get_event_details(
-    event_id: str = Query(..., min_length=1, description="Event ID"),
+    event_id: str,
     db: Session = Depends(get_db)
 ) -> SecurityEventResponse:
     """
