@@ -1,0 +1,68 @@
+# Development override configuration for docker-compose
+# This file is automatically loaded and overrides docker-compose.yml in development
+
+version: '3.8'
+
+services:
+  postgres:
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_INITDB_ARGS: "-c log_statement=all -c log_duration=on"
+
+  redis:
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --loglevel debug
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+      - /app/__pycache__
+    environment:
+      - DEBUG=True
+      - LOG_LEVEL=DEBUG
+      - PYTHONUNBUFFERED=1
+    command: |
+      sh -c "python -c 'from database import init_db; init_db()' && 
+             uvicorn main:app --host 0.0.0.0 --port 8000 --reload --reload-dirs /app"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - ./frontend:/app
+      - /app/.next
+      - /app/node_modules
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NODE_ENV=development
+    command: npm run dev
+
+  nginx:
+    profiles:
+      - monitoring
+
+  prometheus:
+    profiles:
+      - monitoring
+
+  grafana:
+    profiles:
+      - monitoring
+
+  node-exporter:
+    profiles:
+      - monitoring
+
+  celery-worker:
+    profiles:
+      - optional
+
+  celery-beat:
+    profiles:
+      - optional
